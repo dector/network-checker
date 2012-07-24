@@ -23,7 +23,7 @@ public class HostCheckerServlet extends HttpServlet {
     private static final String RESP_OK         = "Active";
     private static final String RESP_FAILED     = "Not Active";
 
-    private static final String DB_URL          = "jdbc:h2:checker";
+    private static final String DB_URL          = "jdbc:h2:checker" + ";MULTI_THREADED=1";
     private static final String DB_USER         = "user";
     private static final String DB_PASS         = "pass";
 
@@ -61,10 +61,21 @@ public class HostCheckerServlet extends HttpServlet {
 
         // Database "response"
 
-        if (responseString.equals(RESP_OK)) {
-            ResultSet rs = db.query("SELECT * FROM hosts");
-
-            System.out.println(rs);
+        // Fucking PrepareStatement doesn't want work !!!
+        ResultSet res = db.query(String.format("SELECT * FROM %s WHERE %s = '%s'",
+                "hosts", "url", host));
+        try {
+            if (res != null) {
+                if (! res.next()) { // no such host in database
+                    db.execute(String.format("INSERT INTO %s VALUES ('%s', %b)",
+                            "hosts", host, responseString == RESP_OK));
+                } else {
+                    db.execute(String.format("UPDATE %s SET %s = %b WHERE %s = '%s'",
+                            "hosts", "state", responseString == RESP_OK, "url", host));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         // Close all resources
