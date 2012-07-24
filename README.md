@@ -9,7 +9,7 @@ Estimating time
 Part 1. Dirty, but working.
 ---------------------------
 
-  1. Working backend - 1hr.
+  1. Working backend - 1hr. (__REAL__: 1h 18m) 
   2. Working frontend - 1.5hr.
   3. Maven distribution - 40min.
 
