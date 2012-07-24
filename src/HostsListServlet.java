@@ -15,7 +15,7 @@ import java.sql.SQLException;
 /**
  * @author dector (dector9@gmail.com)
  */
-public class HostCheckerServlet extends HttpServlet {
+public class HostsListServlet extends HttpServlet {
     private static final String ATTR_DB_CONNECTOR = "db.connector";
 
     private static final String PARAM_HOST      = "h";
@@ -28,12 +28,6 @@ public class HostCheckerServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        String host = req.getParameter(PARAM_HOST);
-        String timeOutStr = req.getParameter(PARAM_TIMEOUT);
-        int timeOut = (timeOutStr != null) ? Integer.parseInt(timeOutStr) : DEFAULT_TIMEOUT;
-
-        System.out.printf("[REQUEST] Host: %s, timeout: %d%n", host, timeOut);
-
         // Database
 
         HttpSession session = req.getSession();
@@ -48,32 +42,36 @@ public class HostCheckerServlet extends HttpServlet {
 
         // Response
 
-        String responseString = getResponseString(host, timeOut);
-
-        resp.setContentType("text/plain");
+        resp.setContentType("text/json");
         resp.setStatus(HttpServletResponse.SC_OK);
 
         PrintWriter out = resp.getWriter();
-        out.println(responseString);
 
         // Database "response"
 
-        // Fucking PrepareStatement doesn't want work !!!
-        ResultSet res = db.query(String.format("SELECT * FROM %s WHERE %s = '%s'",
-                "hosts", "url", host));
+        ResultSet res = db.query(String.format("SELECT * FROM %s", "hosts"));
+
+        StringBuilder resultJson = new StringBuilder(); // Yep, I know about Json tools =)
         try {
-            if (res != null) {
-                if (! res.next()) { // no such host in database
-                    db.execute(String.format("INSERT INTO %s VALUES ('%s', %b)",
-                            "hosts", host, responseString == RESP_OK));
-                } else {
-                    db.execute(String.format("UPDATE %s SET %s = %b WHERE %s = '%s'",
-                            "hosts", "state", responseString == RESP_OK, "url", host));
-                }
+            resultJson.append("[");
+
+            while (res.next()) {
+                resultJson.append("{");
+                resultJson.append("\"status\": " + "\""
+                        + (res.getBoolean("state") ? "On" : "Off")
+                        + "\",");
+                resultJson.append("\"ip\": " + "\"" + res.getString("url") + "\"");
+                resultJson.append("}");
             }
+
+            resultJson.append("]");
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
+
+        System.out.println(resultJson);
+
+        out.println(resultJson);
 
         // Close all resources
 

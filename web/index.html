@@ -4,14 +4,41 @@
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#table").click(function () {
-                    alert("Hello, world!");
+                var $table = $("table.data tbody");
+
+                $.getJSON("hosts-list", {}, function(json) {
+                    var tableText = "";
+
+                    for (var i = 0; i < json.length; i++) {
+                        var jsonValue = json[i];
+                        tableText += '<tr><th id="status">' + jsonValue.status + '</th>';
+                        tableText += '<th id="ip">' + jsonValue.ip + '</th></tr>';
+                    }
+
+                    $table.html(tableText);
+                });
+
+                $('th', $table).each(function (column) {
+                    if ($(this).is('.status')) {
+                        $(this).click(function() {
+                            alert("aaa");
+                        });
+                    }
                 });
             });
         </script>
     </head>
 
     <body>
-        <div id="table">a</div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Host IP</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </body>
 </html>
