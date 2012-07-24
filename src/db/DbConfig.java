@@ -9,7 +9,6 @@ import java.io.Serializable;
  * @version 25.11.10 0:55
  */
 public class DbConfig implements Serializable {
-
     private String url;
     private String user;
     private String password;

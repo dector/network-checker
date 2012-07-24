@@ -11,8 +11,6 @@ import java.sql.*;
  */
 public class DbConnector implements Serializable {
     private static final String DRIVER = "org.h2.Driver";
-    private static final String URL = "jdbc:h2:";
-    private String CONNECTION_URL;
 
     private DbConfig conf;
 
@@ -26,7 +24,6 @@ public class DbConnector implements Serializable {
      */
     public DbConnector(DbConfig conf) {
         this.conf = conf;
-        CONNECTION_URL = getConnectionURL();
         try {
             Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
@@ -34,15 +31,8 @@ public class DbConnector implements Serializable {
         }
     }
 
-    /**
-     * Form database connection URL
-     *
-     * @return full connection URL
-     */
-    private String getConnectionURL() {
-        return URL + conf.getUrl() + ":" +
-                "?user=" + conf.getUser() +
-                "&password=" + conf.getPassword();
+    private Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(conf.getUrl(), conf.getUser(), conf.getPassword());
     }
 
     /**
@@ -56,7 +46,7 @@ public class DbConnector implements Serializable {
         ResultSet rs = null;
 
         try {
-            Connection con = DriverManager.getConnection(CONNECTION_URL);
+            Connection con = getConnection();
             if (!con.isClosed()) {
                 st = con.createStatement();
                 rs = st.executeQuery(query);
@@ -84,7 +74,7 @@ public class DbConnector implements Serializable {
         ResultSet rs = null;
 
         try {
-            Connection con = DriverManager.getConnection(CONNECTION_URL);
+            Connection con = getConnection();
             if (!con.isClosed()) {
                 pst = con.prepareStatement(query);
 
@@ -113,7 +103,7 @@ public class DbConnector implements Serializable {
         int res = -1;
 
         try {
-            Connection con = DriverManager.getConnection(CONNECTION_URL);
+            Connection con = getConnection();
             if (!con.isClosed()) {
                 st = con.createStatement();
                 res = st.executeUpdate(query);
@@ -141,7 +131,7 @@ public class DbConnector implements Serializable {
         int res = -1;
 
         try {
-            Connection con = DriverManager.getConnection(CONNECTION_URL);
+            Connection con = getConnection();
             if (!con.isClosed()) {
                 pst = con.prepareStatement(query);
 

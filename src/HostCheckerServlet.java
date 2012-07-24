@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -22,7 +23,7 @@ public class HostCheckerServlet extends HttpServlet {
     private static final String RESP_OK         = "Active";
     private static final String RESP_FAILED     = "Not Active";
 
-    private static final String DB_URL          = "host-checker";
+    private static final String DB_URL          = "jdbc:h2:checker";
     private static final String DB_USER         = "user";
     private static final String DB_PASS         = "pass";
 
@@ -61,7 +62,9 @@ public class HostCheckerServlet extends HttpServlet {
         // Database "response"
 
         if (responseString.equals(RESP_OK)) {
-//            db.query();
+            ResultSet rs = db.query("SELECT * FROM hosts");
+
+            System.out.println(rs);
         }
 
         // Close all resources
