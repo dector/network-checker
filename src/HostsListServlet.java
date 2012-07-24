@@ -18,13 +18,8 @@ import java.sql.SQLException;
 public class HostsListServlet extends HttpServlet {
     private static final String ATTR_DB_CONNECTOR = "db.connector";
 
-    private static final String PARAM_HOST      = "h";
-    private static final String PARAM_TIMEOUT   = "t";
-
-    private static final String RESP_OK         = "Active";
-    private static final String RESP_FAILED     = "Not Active";
-
-    private static final int DEFAULT_TIMEOUT    = 1000;
+    private static final String RESP_OK         = "On";
+    private static final String RESP_FAILED     = "Off";
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -58,7 +53,7 @@ public class HostsListServlet extends HttpServlet {
             while (res.next()) {
                 resultJson.append("{");
                 resultJson.append("\"status\": " + "\""
-                        + (res.getBoolean("state") ? "On" : "Off")
+                        + (res.getBoolean("state") ? RESP_OK : RESP_FAILED)
                         + "\",");
                 resultJson.append("\"ip\": " + "\"" + res.getString("url") + "\"");
                 resultJson.append("}");
@@ -79,17 +74,4 @@ public class HostsListServlet extends HttpServlet {
 
         out.close();
     }
-
-    private String getResponseString(String host, int timeOut) {
-        String responseString;
-
-        if (HostChecker.isHostReachable(host, timeOut)) {
-            responseString = RESP_OK;
-        } else {
-            responseString = RESP_FAILED;
-        }
-
-        return responseString;
-    }
-
 }

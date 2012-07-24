@@ -2,7 +2,20 @@
     <head>
         <title>Network checker</title>
         <script type="text/javascript" src="jquery.js"></script>
+        <style type="text/css">
+            .status { width: 80px }
+        </style>
         <script type="text/javascript">
+            function recheckHost(statusCell, ip) {
+                var status = statusCell.html();
+
+                statusCell.html("Updating");
+
+                $.get("checker", {h: ip}, function(data) {
+                    statusCell.html(data);
+                });
+            }
+
             function updateTable() {
                 var $table = $("table.data tbody");
 
@@ -28,8 +41,12 @@
             $(document).ready(function() {
                 updateTable();
 
-                $(".send").click(function() {
+                $("input.send").click(function() {
+                    var ip = $("input.host_ip").val();
 
+                    $.get("checker", {h: ip}, function() {
+                        updateTable();
+                    });
                 });
             });
         </script>
@@ -53,14 +70,6 @@
             <tr>
                 <td>IP:</td>
                 <td><input type="text" maxlength="15" class="host_ip" value="127.0.0.1" /></td>
-            </tr>
-            <tr>
-                <td>Mask:</td>
-                <td><input type="text" maxlength="15" class="subnet_mask" value="255.255.255.255" /></td>
-            </tr>
-            <tr>
-                <td>Timeout:</td>
-                <td><input type="text" class="timeout" value="100" /></td>
             </tr>
             <tr>
                 <td></td>

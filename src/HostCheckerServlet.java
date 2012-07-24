@@ -21,10 +21,10 @@ public class HostCheckerServlet extends HttpServlet {
     private static final String PARAM_HOST      = "h";
     private static final String PARAM_TIMEOUT   = "t";
 
-    private static final String RESP_OK         = "Active";
-    private static final String RESP_FAILED     = "Not Active";
+    private static final String RESP_OK         = "On";
+    private static final String RESP_FAILED     = "Off";
 
-    private static final int DEFAULT_TIMEOUT    = 1000;
+    private static final int DEFAULT_TIMEOUT    = 2000;
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
