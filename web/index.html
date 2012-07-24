@@ -2,24 +2,11 @@
     <head>
         <title>Network checker</title>
         <script type="text/javascript" src="jquery.js"></script>
-        <style type="text/css">
-            .status { width: 80px }
-        </style>
         <script type="text/javascript">
-            function recheckHost(statusCell, ip) {
-                var status = statusCell.html();
-
-                statusCell.html("Updating");
-
-                $.get("checker", {h: ip}, function(data) {
-                    statusCell.html(data);
-                });
-            }
-
             function updateTable() {
                 var $table = $("table.data tbody");
 
-                $.getJSON("hosts-list", function(json) {
+                $.getJSON("hosts-list", {}, function(json) {
                     var tableText = "";
 
                     for (var i = 0; i < json.length; i++) {
@@ -36,7 +23,7 @@
                         recheckHost(cell, $('.ip', cell.parent()).html());
                     });
                 });
-            }
+            };
 
             $(document).ready(function() {
                 updateTable();

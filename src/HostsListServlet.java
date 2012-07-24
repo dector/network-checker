@@ -49,8 +49,7 @@ public class HostsListServlet extends HttpServlet {
 
         // Database "response"
 
-        ResultSet res = db.query(String.format("SELECT * FROM %s ORDER BY %s ASC",
-                "hosts", "url"));
+        ResultSet res = db.query(String.format("SELECT * FROM %s", "hosts"));
 
         StringBuilder resultJson = new StringBuilder(); // Yep, I know about Json tools =)
         try {
@@ -58,10 +57,10 @@ public class HostsListServlet extends HttpServlet {
 
             while (res.next()) {
                 resultJson.append("{");
-                resultJson.append("\"status\":" + "\""
+                resultJson.append("\"status\": " + "\""
                         + (res.getBoolean("state") ? "On" : "Off")
                         + "\",");
-                resultJson.append("\"ip\":" + "\"" + res.getString("url") + "\"");
+                resultJson.append("\"ip\": " + "\"" + res.getString("url") + "\"");
                 resultJson.append("}");
 
                 if (! res.isLast()) resultJson.append(",");
