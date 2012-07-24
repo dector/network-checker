@@ -62,6 +62,8 @@ public class HostsListServlet extends HttpServlet {
                         + "\",");
                 resultJson.append("\"ip\": " + "\"" + res.getString("url") + "\"");
                 resultJson.append("}");
+
+                if (! res.isLast()) resultJson.append(",");
             }
 
             resultJson.append("]");

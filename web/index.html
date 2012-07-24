@@ -3,7 +3,7 @@
         <title>Network checker</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript">
-            $(document).ready(function() {
+            function updateTable() {
                 var $table = $("table.data tbody");
 
                 $.getJSON("hosts-list", {}, function(json) {
@@ -11,20 +11,20 @@
 
                     for (var i = 0; i < json.length; i++) {
                         var jsonValue = json[i];
-                        tableText += '<tr><th id="status">' + jsonValue.status + '</th>';
-                        tableText += '<th id="ip">' + jsonValue.ip + '</th></tr>';
+                        tableText += '<tr><th class="status">' + jsonValue.status + '</th>';
+                        tableText += '<th class="ip">' + jsonValue.ip + '</th></tr>';
                     }
 
                     $table.html(tableText);
-                });
 
-                $('th', $table).each(function (column) {
-                    if ($(this).is('.status')) {
-                        $(this).click(function() {
-                            alert("aaa");
-                        });
-                    }
+                    $('th.status').click(function() {
+                        alert("aaa");
+                    });
                 });
+            };
+
+            $(document).ready(function() {
+                updateTable();
             });
         </script>
     </head>
