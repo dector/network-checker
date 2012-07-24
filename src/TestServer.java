@@ -1,5 +1,8 @@
 import org.eclipse.jetty.server.Server;
 
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+
 /**
  * @author dector (dector9@gmail.com)
  */
@@ -8,7 +11,10 @@ public class TestServer {
 
     public static void main(String[] args) {
         Server server = new Server(PORT);
-        server.setHandler(new HostCheckerHandler());
+
+        ServletContextHandler rootContext =
+                new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS);
+        rootContext.addServlet(new ServletHolder(new HostCheckerServlet()), "/checker");
 
         try {
             server.start();
