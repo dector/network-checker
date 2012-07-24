@@ -24,13 +24,13 @@
 
                     for (var i = 0; i < json.length; i++) {
                         var jsonValue = json[i];
-                        tableText += '<tr><th class="status">' + jsonValue.status + '</th>';
-                        tableText += '<th class="ip">' + jsonValue.ip + '</th></tr>';
+                        tableText += '<tr><td class="status">' + jsonValue.status + '</td>';
+                        tableText += '<td class="ip">' + jsonValue.ip + '</td></tr>';
                     }
 
                     $table.html(tableText);
 
-                    $('th.status').click(function() {
+                    $('td.status').click(function() {
                         var cell = $(this);
 
                         recheckHost(cell, $('.ip', cell.parent()).html());
@@ -40,6 +40,10 @@
 
             $(document).ready(function() {
                 updateTable();
+
+                $(".send").click(function() {
+
+                });
             });
         </script>
     </head>
@@ -48,12 +52,33 @@
         <table class="data">
             <thead>
                 <tr>
-                    <th>Status</th>
-                    <th>Host IP</th>
+                    <td><b>Status</b></td>
+                    <td><b>Host IP</b></td>
                 </tr>
             </thead>
             <tbody>
             </tbody>
+        </table>
+
+        <br>
+
+        <table class="checker">
+            <tr>
+                <td>IP:</td>
+                <td><input type="text" maxlength="15" class="host_ip" value="127.0.0.1" /></td>
+            </tr>
+            <tr>
+                <td>Mask:</td>
+                <td><input type="text" maxlength="15" class="subnet_mask" value="255.255.255.255" /></td>
+            </tr>
+            <tr>
+                <td>Timeout:</td>
+                <td><input type="text" class="timeout" value="100" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="button" class="send" value="Check" /></td>
+            </tr>
         </table>
     </body>
 </html>
