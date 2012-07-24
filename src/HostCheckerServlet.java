@@ -1,5 +1,5 @@
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
+import db.DbConfig;
+import db.DbConnector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * @author dector (dector9@gmail.com)
  */
 public class HostCheckerServlet extends HttpServlet {
-    private static final String ATTR_DB_HANDLER = "db.handler";
+    private static final String ATTR_DB_CONNECTOR = "db.connector";
 
     private static final String PARAM_HOST      = "h";
     private static final String PARAM_TIMEOUT   = "t";
@@ -22,7 +22,7 @@ public class HostCheckerServlet extends HttpServlet {
     private static final String RESP_OK         = "Active";
     private static final String RESP_FAILED     = "Not Active";
 
-    private static final String DB_URL          = "jdbc:h2:host-checker";
+    private static final String DB_URL          = "host-checker";
     private static final String DB_USER         = "user";
     private static final String DB_PASS         = "pass";
 
@@ -40,31 +40,33 @@ public class HostCheckerServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        DbHandler db = (DbHandler)session.getAttribute(ATTR_DB_HANDLER);
-        if (db == null) try {
-            db = new DbHandler(DB_URL, DB_USER, DB_PASS);
-            session.setAttribute(ATTR_DB_HANDLER, db);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace(System.err);
+        DbConnector db = (DbConnector)session.getAttribute(ATTR_DB_CONNECTOR);
+        if (db == null) {
+            DbConfig config = new DbConfig(DB_URL, DB_USER, DB_PASS);
+            db = new DbConnector(config);
+
+            session.setAttribute(ATTR_DB_CONNECTOR, db);
         }
 
-        // Request
+        // Response
+
+        String responseString = getResponseString(host, timeOut);
 
         resp.setContentType("text/plain");
         resp.setStatus(HttpServletResponse.SC_OK);
 
         PrintWriter out = resp.getWriter();
-        out.println(getResponseString(host, timeOut));
+        out.println(responseString);
+
+        // Database "response"
+
+        if (responseString.equals(RESP_OK)) {
+//            db.query();
+        }
 
         // Close all resources
 
         out.close();
-
-        if (db != null) try {
-            db.close();
-        } catch (SQLException e) {
-            e.printStackTrace(System.err);
-        }
     }
 
     private String getResponseString(String host, int timeOut) {
