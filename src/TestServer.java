@@ -16,6 +16,7 @@ public class TestServer {
                 new ServletContextHandler(server, "/", ServletContextHandler.SESSIONS);
         rootContext.addServlet(new ServletHolder(new HostCheckerServlet()), "/checker");
         rootContext.addServlet(new ServletHolder(new IndexPageServlet()), "/index.html");
+        rootContext.addServlet(new ServletHolder(new JQueryFileServlet()), "/jquery.js");
 
         try {
             server.start();
