@@ -20,9 +20,6 @@ import java.sql.SQLException;
 public class ClearDatabaseServlet extends HttpServlet {
     private static final String ATTR_DB_CONNECTOR = "server.db.connector";
 
-    private static final String RESP_OK         = "On";
-    private static final String RESP_FAILED     = "Off";
-
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         // Database

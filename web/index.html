@@ -3,32 +3,43 @@
         <title>Network checker</title>
         <script type="text/javascript" src="jquery.js"></script>
         <style type="text/css">
-            .status { width: 80px }
         </style>
         <script type="text/javascript">
             function recheckHost(statusCell, ip) {
-                var status = statusCell.html();
-
-                statusCell.html("Updating");
+                statusCell.html('<img src="checking.gif" />');
 
                 $.get("checker", {h: ip}, function(data) {
-                    statusCell.html(data);
+                    var image;
+                    if (data.trim() == 'On') {
+                        image = '<img src="online.png" />';
+                    } else {
+                        image = '<img src="offline.png" />';
+                    }
+                    statusCell.html(image);
                 });
             }
 
             function updateTable() {
-                var $table = $("table.data tbody");
+                var table = $("table.data tbody");
+
+                table.html('<img src="loading.gif" />');
 
                 $.getJSON("hosts-list", {}, function(json) {
                     var tableText = "";
 
                     for (var i = 0; i < json.length; i++) {
                         var jsonValue = json[i];
-                        tableText += '<tr><td class="status">' + jsonValue.status + '</td>';
+                        tableText += '<tr><td class="status"><img src="';
+                        if (jsonValue.status == 'On') {
+                            tableText += 'online';
+                        } else {
+                            tableText += 'offline';
+                        }
+                        tableText += '.png" />' + '</td>';
                         tableText += '<td class="ip">' + jsonValue.ip + '</td></tr>';
                     }
 
-                    $table.html(tableText);
+                    table.html(tableText);
 
                     $('td.status').click(function() {
                         var cell = $(this);
@@ -70,6 +81,7 @@
             </tbody>
         </table>
 
+        <br>
         <a href="#" class="clear">Clear</a>
         <br>
 
@@ -80,7 +92,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><input type="button" class="send" value="Check" /></td>
+                <td><input type="button" class="send" value="Add" /></td>
             </tr>
         </table>
     </body>

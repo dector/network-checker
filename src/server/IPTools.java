@@ -44,35 +44,4 @@ public class IPTools {
         
         return byteAddr;
     }
-    
-    public static byte[][] getIPSetByMask(String subnetIP, String mask) {
-        byte[] maskBits = getByteFormat(mask);
-        convertToUnsignedBytes(maskBits);
-
-        byte[] ipBits = getByteFormat(subnetIP);
-        convertToUnsignedBytes(ipBits);
-
-        // Found 0s mask length
-
-
-
-        //
-
-        int unsettedMaskBits = 0;
-
-        for (int i = 0; i < maskBits.length; i++)
-            for (int j = 0; j < 8; j++)
-                if ((maskBits[i] & (1 << j)) == 0) unsettedMaskBits++;
-
-        byte[] maskBitsPos = new byte[unsettedMaskBits];
-        byte[][] ipSet = new byte[(int)Math.pow(2, unsettedMaskBits)][];
-
-        //
-
-        for (int ip = 0; ip < ipSet.length; ip++) {
-            ipSet[ip] = new byte[4];
-        }
-
-        return ipSet;
-    }
 }
