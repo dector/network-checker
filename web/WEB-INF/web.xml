@@ -1,0 +1,19 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <servlet>
+        <servlet-name>checker</servlet-name>
+        <servlet-class>HostCheckerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>hosts-list</servlet-name>
+        <servlet-class>HostsListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>checker</servlet-name>
+        <url-pattern>/checker</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>hosts-list</servlet-name>
+        <url-pattern>/hosts-list</url-pattern>
+    </servlet-mapping>
+</web-app>

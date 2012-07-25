@@ -4,7 +4,7 @@ package db;
  * @author dector (dector9@gmail.com)
  */
 public class Db {
-    private static final String DB_URL  = "jdbc:h2:checker" + ";MULTI_THREADED=1";
+    private static final String DB_URL  = "jdbc:mysql:///checker";
     private static final String DB_USER = "user";
     private static final String DB_PASS = "pass";
 

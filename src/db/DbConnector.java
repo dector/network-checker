@@ -10,7 +10,7 @@ import java.sql.*;
  * @version 25.11.10 1:02
  */
 public class DbConnector implements Serializable {
-    private static final String DRIVER = "org.h2.Driver";
+    private static final String DRIVER = "com.mysql.jdbc.Driver";
 
     private DbConfig conf;
 
