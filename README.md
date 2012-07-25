@@ -3,27 +3,23 @@ Network checker
 
 Simple test task solution
 
+Install
+=======
+
+  1. Create MySQL database at localhost with name `checker`.
+  2. Permit user `user` (pass `pass`) to CREATE, UPDATE, INSERT,
+TRUNCATE.
+  3. Execute `CREATE TABLE hosts (url varchar(15), state boolean)`.
+  4. Run `mvn package`.
+  5. Deploy `target/network-checker.war` to your server.
+  6. ???
+  7. PROFIT!!!
+
 Estimating time
 ===============
 
-Part 1. Dirty, but working.
----------------------------
+  __Estimated__ time: ~ 4 - 4.5 h.
+  __Real__ time: ~ 11.5 h.
+  Diff: ~ 2.5 __times__.
 
-  1. Working backend - 1hr. (__REAL__: 1h 18m) 
-  2. Working frontend - 1.5hr.
-  3. Maven distribution - 40min.
-
-PART 1 SUMMARY: 2hr 10min.
-
-Part 2. Eye candy
------------------
-
-  1. Cool frontend - 1.5hr.
-  2. Online demo - 50min.
-
-PART 2 SUMMARY: 2hr 40min.
-
-SUMMARY TIME
-------------
-
-4h 50min.
+Estimating __failed__ (with x3 coefficient).
