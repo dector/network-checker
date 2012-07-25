@@ -1,4 +1,5 @@
 import junit.framework.TestCase;
+import server.HostChecker;
 
 /**
  * @author dector (dector9@gmail.com)

@@ -1,6 +1,8 @@
-import db.Db;
-import db.DbConfig;
-import db.DbConnector;
+package server;
+
+import server.db.Db;
+import server.db.DbConfig;
+import server.db.DbConnector;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +18,7 @@ import java.sql.SQLException;
  * @author dector (dector9@gmail.com)
  */
 public class HostsListServlet extends HttpServlet {
-    private static final String ATTR_DB_CONNECTOR = "db.connector";
+    private static final String ATTR_DB_CONNECTOR = "server.db.connector";
 
     private static final String RESP_OK         = "On";
     private static final String RESP_FAILED     = "Off";

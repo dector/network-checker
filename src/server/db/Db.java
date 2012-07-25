@@ -1,4 +1,4 @@
-package db;
+package server.db;
 
 /**
  * @author dector (dector9@gmail.com)

@@ -1,7 +1,11 @@
+package jetty;
+
 import org.eclipse.jetty.server.Server;
 
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import server.HostCheckerServlet;
+import server.HostsListServlet;
 
 /**
  * @author dector (dector9@gmail.com)

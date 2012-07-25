@@ -1,3 +1,5 @@
+package server;
+
 /**
  * @author dector (dector9@gmail.com)
  */

@@ -48,6 +48,12 @@
                         updateTable();
                     });
                 });
+
+                $("a.clear").click(function () {
+                    $.get("clear", function () {
+                        $("table.data tbody").html("");
+                    });
+                });
             });
         </script>
     </head>
@@ -64,6 +70,7 @@
             </tbody>
         </table>
 
+        <a href="#" class="clear">Clear</a>
         <br>
 
         <table class="checker">
