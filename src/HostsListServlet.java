@@ -50,15 +50,17 @@ public class HostsListServlet extends HttpServlet {
         try {
             resultJson.append("[");
 
-            while (res.next()) {
-                resultJson.append("{");
-                resultJson.append("\"status\": " + "\""
-                        + (res.getBoolean("state") ? RESP_OK : RESP_FAILED)
-                        + "\",");
-                resultJson.append("\"ip\": " + "\"" + res.getString("url") + "\"");
-                resultJson.append("}");
+            if (res != null) {
+                while (res.next()) {
+                    resultJson.append("{");
+                    resultJson.append("\"status\": " + "\""
+                            + (res.getBoolean("state") ? RESP_OK : RESP_FAILED)
+                            + "\",");
+                    resultJson.append("\"ip\": " + "\"" + res.getString("url") + "\"");
+                    resultJson.append("}");
 
-                if (! res.isLast()) resultJson.append(",");
+                    if (! res.isLast()) resultJson.append(",");
+                }
             }
 
             resultJson.append("]");
