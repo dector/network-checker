@@ -10,10 +10,12 @@ Install
   2. Permit user `user` (pass `pass`) to CREATE, UPDATE, INSERT,
 TRUNCATE.
   3. Execute `CREATE TABLE hosts (url varchar(15), state boolean)`.
-  4. Run `mvn package`.
-  5. Deploy `target/network-checker.war` to your server.
-  6. ???
-  7. PROFIT!!!
+  4. `git clone git://github.com/dector/network-checker.git`.
+  5. `cd network-manager`.
+  6. Run `mvn package`.
+  7. Deploy `target/network-checker.war` to your server.
+  8. ???
+  9. PROFIT!!!
 
 Estimating time
 ===============
